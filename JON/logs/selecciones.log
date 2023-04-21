@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2023-04-21T12:43:59.027943600Z</date>
+  <millis>1682081039027</millis>
+  <nanos>943600</nanos>
+  <sequence>0</sequence>
+  <logger>base.Principal</logger>
+  <level>FINE</level>
+  <class>base.Principal</class>
+  <method>mostrarMenu</method>
+  <thread>1</thread>
+  <message>Primera opcion</message>
+</record>
+</log>

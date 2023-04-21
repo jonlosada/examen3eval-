@@ -1,6 +1,10 @@
 package base;
 
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Principal {
@@ -14,6 +18,16 @@ public class Principal {
 
 	public static void main(String[] args) {
 
+		LOGGER.setUseParentHandlers(false);
+		Handler fileHandler = null;
+		try {
+			fileHandler = new FileHandler("./logs/selecciones.log", true);
+		} catch( IOException e) {
+			e.printStackTrace();
+		}
+		LOGGER.addHandler(fileHandler);
+		fileHandler.setLevel(Level.ALL);
+		LOGGER.setLevel(Level.ALL);
 		System.out.println(
 				"Este programa lee el nivel de agua de una presa y permite abrir compuertas si tenemos permiso (el nivel es superior a 50) y las compuertas est�n verificadas.");
 
@@ -41,9 +55,11 @@ public class Principal {
 			opcion = teclado.nextInt();
 			switch (opcion) {
 			case 1:
+				
 				nivel = leerNivelAgua();
 				permiso = false;
 				compuertasVerificadas = false;
+				LOGGER.log(Level.FINE, "Primera opcion");
 				break;
 			case 2:
 				if(abrirCompuertas()) {
@@ -53,6 +69,7 @@ public class Principal {
 					System.out.println();
 					System.out.print("No se cumplen las condiciones para abrir compuertas.");
 				}
+				LOGGER.log(Level.FINE, "Segunda opcion");
 				break;
 			case 3:
 				permiso = solicitarPermiso(nivel);
@@ -60,6 +77,7 @@ public class Principal {
 					System.out.println();
 					System.out.print("El permiso solamente se concede si el nivel del agua es superior a 50.");
 				}
+				LOGGER.log(Level.FINE, "Tercera opcion");
 				break;	
 			case 4:
 				compuertasVerificadas = verificarCompuertas();
@@ -67,6 +85,7 @@ public class Principal {
 					System.out.println();
 					System.out.print("�Compuertas verificadas!");
 				}
+				LOGGER.log(Level.FINE, "Cuarta opcion");
 				break;
 			default:
 				break;
@@ -86,8 +105,13 @@ public class Principal {
 			return false;
 		}
 	}
-	
-	static boolean solicitarPermiso(int nivel) {
+	/**
+	 * Metodo que sirve para solicitar el permiso dependiendo de si el nivel es mayor a 50 ( true ) ( false en caso contrario )
+	 * @author Jon Losada
+	 * @param nivel Nivel del agua 
+	 * @return booleano que nos indica lo indicado anteriormente 
+	 */
+	public static boolean solicitarPermiso(int nivel) {
 		if (nivel > 50) {
 			return true;
 		}else {
